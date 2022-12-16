@@ -69,17 +69,20 @@ function GridType() {
             ) : (
                 <h4 className={cs('title')}>{`Kết quả của '${type}'`}</h4>
             )}
-            {loading && (
+            {loading ? (
                 <div className={cs('wrapiconload')}>
                     <FontAwesomeIcon className={cs('iconLoading')} icon={faSpinner} />
                 </div>
+            ) : (
+                <>
+                    <div className={cs('movieList')}>
+                        {lists.map((list, index) => (
+                            <MovieItem key={index} category={list.category} list={list} className={cs('movieItem')} />
+                        ))}
+                    </div>
+                    <h4 className={cs('noMore')}>Đã hết kết quả</h4>
+                </>
             )}
-            <div className={cs('movieList')}>
-                {lists.map((list, index) => (
-                    <MovieItem key={index} category={list.category} list={list} className={cs('movieItem')} />
-                ))}
-            </div>
-            <h4 className={cs('noMore')}>Đã hết kết quả</h4>
         </div>
     );
 }

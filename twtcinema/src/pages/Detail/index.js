@@ -7,25 +7,31 @@ import classNames from 'classnames/bind';
 import requestApi from '~/apiService';
 import { Img } from '~/apiService/instance';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlayCircle } from '@fortawesome/free-solid-svg-icons';
+import { faPlayCircle, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import InforDetail from '~/layout/component/InforDetail';
 const cs = classNames.bind(styles);
 
 function Detail() {
     const { category, slug } = useParams();
-    const [movieDetail, setMovieDetail] = useState();
+    const [movieDetail, setMovieDetail] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         async function getDeTailMovie() {
             const result = await requestApi.getDetails(slug);
             setMovieDetail(result.data);
+            setLoading(false);
         }
         getDeTailMovie();
     }, [slug]);
 
     return (
         <div className={cs('wrapper')}>
-            {movieDetail && (
+            {loading ? (
+                <div className={cs('wrapiconload')}>
+                    <FontAwesomeIcon className={cs('iconLoading')} icon={faSpinner} />
+                </div>
+            ) : (
                 <>
                     <div
                         className={cs('backgroudImg')}

@@ -1,5 +1,7 @@
 .wrapper {
-    margin-left: 15px;}
+    margin-left: 15px;
+    height: 100%;
+}
 .movieList {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -29,8 +31,13 @@
 .wrapiconload {
     display: flex;
     justify-content: center;
+    height: 100%;
+    position: relative;
 }
 .iconLoading {
+    position: absolute;
+    top: 40%;
+    left: 50%;
     transform: translate(-50%, -50%);
     font-size: 5rem;
     color: rgba(22, 24, 35, 0.5);
@@ -39,10 +46,10 @@
 
 @keyframes spinner {
     from {
-        transform: rotate(0);
+        transform: translate(-50%, -50%) rotate(0);
     }
     to {
-        transform: rotate(360deg);
+        transform: translate(-50%, -50%) rotate(360deg);
     }
 }
 

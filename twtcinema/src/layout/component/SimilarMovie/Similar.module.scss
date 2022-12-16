@@ -7,15 +7,22 @@
         // display: flex;
         // flex-direction: column;
         // align-items: center;
-        &:hover{
+        &:hover {
             opacity: 0.9;
-            span{
+            span {
                 color: var(--primary);
             }
         }
     }
     .movieImg {
         border-radius: 10px;
+    }
+
+    .swiperItem-ske {
+        height: 200px;
+        span {
+            height: 100% !important;
+        }
     }
     span {
         text-align: center;
@@ -37,9 +44,11 @@
         .swiperItem {
             width: 40%;
         }
-        span{
+        span {
             font-size: 1.9rem;
         }
+        .swiperItem-ske {
+            height: 120px;
+        }
     }
-
 }

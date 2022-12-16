@@ -16,6 +16,7 @@ import { addHistoryMovie } from '~/apiService/user';
 import { getMulti } from '~/apiService/genres';
 import Comment from '~/layout/component/Comments';
 import { updateView } from '~/apiService/movie';
+import Skeleton from 'react-loading-skeleton';
 
 const cs = classNames.bind(styles);
 
@@ -24,7 +25,8 @@ function WatchMovie() {
     const { category, id, slug } = useParams();
     const [searchParams] = useSearchParams();
     const [genres, setGenres] = useState([]);
-    const [movieDetail, setMovieDetail] = useState();
+    const [movieDetail, setMovieDetail] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     let src = `https://www.2embed.to/embed/tmdb/${category}?id=${id}`;
     if (category === 'tv') {
@@ -38,6 +40,7 @@ function WatchMovie() {
                 const dataGenres = await getMulti(result.data.slug);
                 setGenres(dataGenres.data);
                 setMovieDetail(result.data);
+                setLoading(false);
             } catch (error) {
                 console.log(error);
             }
@@ -87,36 +90,57 @@ function WatchMovie() {
                 width="100%"
                 height="550px"
                 allowFullScreen
-                frameBorder="0"
+                // frameBorder="0"
             ></iframe>
             {movieDetail && (
                 <>
                     <div className={cs('InforDetail')}>
-                        <img
-                            src={Img.posterImg(movieDetail.poster_path || movieDetail.backdrop_path)}
-                            className={cs('poster')}
-                            alt=""
-                        ></img>
-                        <div className={cs('content')}>
-                            <h2 className={cs('title')}>{movieDetail.name} </h2>
-                            <div className={cs('genres')}>
-                                {genres.map((genre, index) => {
-                                    return (
-                                        <span className={cs('genres-item')} key={index}>
-                                            {genre.name}
-                                        </span>
-                                    );
-                                })}
+                        {loading ? (
+                            <Skeleton className={cs('poster')} style={{ width: '200px' }} />
+                        ) : (
+                            <img
+                                src={Img.posterImg(movieDetail.poster_path || movieDetail.backdrop_path)}
+                                className={cs('poster')}
+                                alt=""
+                            ></img>
+                        )}
+                        {loading ? (
+                            <div className={cs('content')}>
+                                <Skeleton className={cs('title')} />
+                                <div className={cs('genres')}>
+                                    <Skeleton className={cs('genres-item')}   style={{ width: '100px'}}/>
+                                </div>
+                                <div className={cs('rate')}>
+                                    <FontAwesomeIcon className={cs('icon')} icon={faStar} />
+                                    {movieDetail.ibmPoints}
+                                </div>
+                                <div className={cs('summary')}>
+                                    <h4>Tóm tắt</h4>
+                                    <Skeleton className={cs('overview')} style={{ width: '900px',height:'70px' }} />
+                                </div>
                             </div>
-                            <div className={cs('rate')}>
-                                <FontAwesomeIcon className={cs('icon')} icon={faStar} />
-                                {movieDetail.ibmPoints}
+                        ) : (
+                            <div className={cs('content')}>
+                                <h2 className={cs('title')}>{movieDetail.name} </h2>
+                                <div className={cs('genres')}>
+                                    {genres.map((genre, index) => {
+                                        return (
+                                            <span className={cs('genres-item')} key={index}>
+                                                {genre.name}
+                                            </span>
+                                        );
+                                    })}
+                                </div>
+                                <div className={cs('rate')}>
+                                    <FontAwesomeIcon className={cs('icon')} icon={faStar} />
+                                    {movieDetail.ibmPoints}
+                                </div>
+                                <div className={cs('summary')}>
+                                    <h4>Tóm tắt</h4>
+                                    <p className={cs('overview')}>{movieDetail.overview}</p>
+                                </div>
                             </div>
-                            <div className={cs('summary')}>
-                                <h4>Tóm tắt</h4>
-                                <p className={cs('overview')}>{movieDetail.overview}</p>
-                            </div>
-                        </div>
+                        )}
                     </div>
                     {category === 'tv' && (
                         <>

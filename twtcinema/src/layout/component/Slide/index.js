@@ -16,7 +16,7 @@ function SlideShow({ category }) {
     const [movieItems, setMovieItems] = useState([]);
     const [loading, setLoading] = useState(true);
     function getMultipleRandom(arr, num) {
-        const shuffled = [...arr].sort(() => 0.5 - Math.random());
+        const shuffled = arr.sort(() => 0.5 - Math.random());
 
         return shuffled.slice(0, num);
     }

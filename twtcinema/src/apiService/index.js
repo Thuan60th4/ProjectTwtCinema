@@ -19,7 +19,7 @@ const requestApi = {
     },
     getSearch(params) {
         const url = '/get-all';
-        return instance.get(url, params); //?query=
+        return instance.get(url, params); //?keyword=
     },
     getDetails(slug) {
         const url = `/get-detail/${slug}`;
