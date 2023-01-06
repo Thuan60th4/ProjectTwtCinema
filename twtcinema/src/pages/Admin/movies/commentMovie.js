@@ -11,6 +11,7 @@ const cs = classNames.bind(styles);
 function CommentMovie() {
     const { id } = useParams();
     const [comments, setComments] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     const getCommentByid = async () => {
         try {
@@ -21,6 +22,7 @@ function CommentMovie() {
                 const allComment = await getCommentByMovie(id);
                 setComments(allComment.data);
             }
+            setLoading(true);
         } catch (error) {
             console.log(error);
         }
@@ -40,11 +42,9 @@ function CommentMovie() {
     return (
         <div className={cs('admin_container', 'movie')}>
             <>
-                {comments.length < 1 ? (
-                    <h2 style={{ textAlign: 'center', color: '#fe2c55', marginTop: '20px' }}>
-                        Hiện chưa có bình luận nào
-                    </h2>
-                ) : (
+                {!loading && <div>Loading...</div>}
+
+                {comments.length > 0 ? (
                     <>
                         <h3 className="text-center mb-3 fs-1 fw-bold">Danh sách bình luận</h3>
                         <Table striped bordered hover className="mt-2">
@@ -80,6 +80,12 @@ function CommentMovie() {
                             </tbody>
                         </Table>
                     </>
+                ) : (
+                    loading && (
+                        <h2 style={{ textAlign: 'center', color: '#fe2c55', marginTop: '20px' }}>
+                            Hiện chưa có bình luận nào
+                        </h2>
+                    )
                 )}
             </>
         </div>

@@ -4,20 +4,21 @@ import TrailerVideo from '~/layout/component/TralierVideo';
 import styles from './Infor.module.scss';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faRemove } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faPlay, faRemove } from '@fortawesome/free-solid-svg-icons';
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '~/context';
 
 import { addFavouriteMovie, getFavoritesMovies } from '~/apiService/user';
 import SimilarMovie from '../SimilarMovie';
 import { getMulti } from '~/apiService/genres';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const cs = classNames.bind(styles);
 
-function InforDetail({ movieDetail }) {
+function InforDetail({ width, movieDetail }) {
     const { showToastMessage } = useContext(AuthContext);
     const [genres, setGenres] = useState([]);
+    const navigate = useNavigate();
 
     const user = JSON.parse(localStorage.getItem('user'));
     const [userFavoriteMovies, setUserFavoriteMovies] = useState([]);
@@ -82,34 +83,48 @@ function InforDetail({ movieDetail }) {
                     </div>
 
                     <div className={cs('Infor')}>
-                        {userFavoriteMovies.includes(movieDetail._id) ? (
-                            <button
-                                className={cs('btnFavorite')}
-                                onClick={handleAddFavoriteMovie}
-                                style={{
-                                    border: '2px solid var(--primary)',
-                                    color: 'var(--primary)',
-                                    fontSize: '1.4rem',
-                                    backgroundColor: 'white',
-                                }}
-                            >
-                                <FontAwesomeIcon
-                                    className={cs('icon')}
-                                    icon={faRemove}
+                        <div className={width < 740 ? cs('wrapWatchFav') : 'btnOnly'}>
+                            {userFavoriteMovies.includes(movieDetail._id) ? (
+                                <button
+                                    className={cs('btnFavorite')}
+                                    onClick={handleAddFavoriteMovie}
                                     style={{
-                                        marginRight: '10px',
-                                        marginBottom: '-1px',
-                                        fontSize: '1.6rem',
+                                        border: '2px solid var(--primary)',
+                                        color: 'var(--primary)',
+                                        fontSize: '1.4rem',
+                                        backgroundColor: 'white',
                                     }}
-                                />
-                                Bỏ yêu thích
-                            </button>
-                        ) : (
-                            <button className={cs('btnFavorite')} onClick={handleAddFavoriteMovie}>
-                                <FontAwesomeIcon className={cs('icon')} icon={faHeart} />
-                                Thêm yêu thích
-                            </button>
-                        )}
+                                >
+                                    <FontAwesomeIcon
+                                        className={cs('icon')}
+                                        icon={faRemove}
+                                        style={{
+                                            marginRight: '10px',
+                                            marginBottom: '-1px',
+                                            fontSize: '1.6rem',
+                                        }}
+                                    />
+                                    Bỏ yêu thích
+                                </button>
+                            ) : (
+                                <button className={cs('btnFavorite')} onClick={handleAddFavoriteMovie}>
+                                    <FontAwesomeIcon className={cs('icon')} icon={faHeart} />
+                                    Thêm yêu thích
+                                </button>
+                            )}
+
+                            {width < 740 && (
+                                <button
+                                    className={cs('playBtn')}
+                                    onClick={() =>
+                                        navigate(`/${movieDetail.category}/${movieDetail.id}/watch/${movieDetail.slug}`)
+                                    }
+                                >
+                                    <FontAwesomeIcon className={cs('icon')} icon={faPlay} />
+                                    Xem Ngay
+                                </button>
+                            )}
+                        </div>
 
                         <h2 className={cs('titleInfor')}>Thông tin</h2>
                         <span>{`Ngày Phát Hành : ${movieDetail.releaseDate}`}</span>

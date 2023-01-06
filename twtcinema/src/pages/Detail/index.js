@@ -15,6 +15,7 @@ function Detail() {
     const { category, slug } = useParams();
     const [movieDetail, setMovieDetail] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [width, setWidth] = useState(window.innerWidth);
 
     useEffect(() => {
         async function getDeTailMovie() {
@@ -24,6 +25,16 @@ function Detail() {
         }
         getDeTailMovie();
     }, [slug]);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setWidth(window.innerWidth);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
     return (
         <div className={cs('wrapper')}>
@@ -39,15 +50,17 @@ function Detail() {
                             backgroundImage: `url("${Img.baseImg(movieDetail.backdrop_path)}")`,
                         }}
                     >
-                        <Link
-                            to={`/${movieDetail.category || category}/${movieDetail.id}/watch/${movieDetail.slug}`}
-                            className={cs('playBtn')}
-                        >
-                            <FontAwesomeIcon className={cs('icon')} icon={faPlayCircle} />
-                            <span>Xem Ngay</span>
-                        </Link>
+                        {width > 740 && (
+                            <Link
+                                to={`/${movieDetail.category || category}/${movieDetail.id}/watch/${movieDetail.slug}`}
+                                className={cs('playBtn')}
+                            >
+                                <FontAwesomeIcon className={cs('icon')} icon={faPlayCircle} />
+                                <span>Xem Ngay</span>
+                            </Link>
+                        )}
                     </div>
-                    <InforDetail movieDetail={movieDetail} />
+                    <InforDetail width={width} movieDetail={movieDetail} />
                 </>
             )}
         </div>

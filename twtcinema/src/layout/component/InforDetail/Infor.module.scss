@@ -35,6 +35,7 @@
 
 .genres {
     display: flex;
+    min-height: 62px;
 }
 .genres-item {
     align-self: center;
@@ -63,6 +64,14 @@
     }
 }
 
+.wrapWatchFav {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.playBtn,
 .btnFavorite {
     height: 35px;
     width: 130px;
@@ -74,6 +83,16 @@
     margin: 10px 0;
     .icon {
         margin-right: 5px;
+    }
+}
+
+.playBtn {
+    font-size: 1.4rem;
+    color: black;
+    background-color: #f8bf2f;
+    margin-left: 10px;
+    &:hover {
+        opacity: 0.8;
     }
 }
 
@@ -147,7 +166,7 @@
     .CastList,
     .summary,
     .Similar {
-        margin-right: 10px;
+        // margin-right: 10px;
         left: 0;
     }
 

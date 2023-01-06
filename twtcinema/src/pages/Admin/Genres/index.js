@@ -12,6 +12,7 @@ function GenresPage() {
     const [genres, setGenres] = useState();
     const [pages, setPages] = useState(1);
     const [currPage, setCurrPage] = useState(1);
+    const [loading, setLoading] = useState(true);
 
     const getGenres = async () => {
         try {
@@ -20,6 +21,7 @@ function GenresPage() {
                 setGenres(res.data);
                 setPages(res.pages);
             }
+            setLoading(false);
         } catch (error) {
             console.log(error);
         }
@@ -29,9 +31,14 @@ function GenresPage() {
     }, [currPage]);
 
     const handleDeleteGenres = async (id) => {
-            await deleteGenres(id);
-            getGenres();
-        
+        if (window.confirm('Bạn thật sự muốn xoá thể loại này')) {
+            try {
+                await deleteGenres(id);
+                getGenres();
+            } catch (error) {
+                console.log(error);
+            }
+        }
     };
 
     return (
@@ -40,6 +47,7 @@ function GenresPage() {
             <Link to="/admin/dashboard/genres/create" className="btn btn-success fs-4 mb-2">
                 Thêm thể loại mới
             </Link>
+            {loading && <div>Loading...</div>}
             {genres && (
                 <>
                     <Table striped bordered hover>
@@ -52,7 +60,7 @@ function GenresPage() {
                         </thead>
                         <tbody>
                             {genres.map((item, index) => (
-                                <tr key ={index}>
+                                <tr key={index}>
                                     <td className="text-center">{index + 1}</td>
                                     <td className="text-center">{item.name}</td>
                                     <td className="text-center">

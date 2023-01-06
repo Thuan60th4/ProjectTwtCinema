@@ -6,7 +6,7 @@ import classNames from 'classnames/bind';
 import { getAllCount } from '~/apiService/user';
 import { getCountMovieMonth, getTotalView } from '~/apiService/movie';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClapperboard, faComment, faPlayCircle } from '@fortawesome/free-solid-svg-icons';
+import { faClapperboard, faComment, faPlayCircle, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { getCountCommentMonth } from '~/apiService/comment';
 import { Link } from 'react-router-dom';
 
@@ -18,6 +18,7 @@ function StatisticDashboard() {
 
     const [countMovie, setCountMovie] = useState(0);
     const [countComment, setCountComment] = useState(0);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const getCount = async () => {
@@ -29,6 +30,7 @@ function StatisticDashboard() {
             setCountMovie(movieByMonth.data);
             setCountComment(commentByMonth.data);
             setTotalView(totalView.count);
+            setLoading(false);
         };
         getCount();
     }, []);
@@ -38,7 +40,10 @@ function StatisticDashboard() {
                 <div className={cs('box-item')}>
                     <div className={cs('box-item-info')}>
                         <p>
-                            <span>{countMovie}</span> <span>Phim Mới tháng này</span>
+                            <span>
+                                {loading ? <FontAwesomeIcon className={cs('loading')} icon={faSpinner} /> : countMovie}
+                            </span>
+                            <span>Phim Mới tháng này</span>
                         </p>
                         <FontAwesomeIcon icon={faClapperboard} />
                     </div>
@@ -47,7 +52,14 @@ function StatisticDashboard() {
                 <div className={cs('box-item')}>
                     <div className={cs('box-item-info')}>
                         <p>
-                            <span>{countComment}</span> <span>Tương tác tháng này</span>
+                            <span>
+                                {loading ? (
+                                    <FontAwesomeIcon className={cs('loading')} icon={faSpinner} />
+                                ) : (
+                                    countComment
+                                )}
+                            </span>
+                            <span>Tương tác tháng này</span>
                         </p>
                         <FontAwesomeIcon icon={faComment} />
                     </div>
@@ -57,7 +69,10 @@ function StatisticDashboard() {
                 <div className={cs('box-item')}>
                     <div className={cs('box-item-info')}>
                         <p>
-                            <span>{totalView}</span> <span>Tổng Số Lượt Xem</span>
+                            <span>
+                                {loading ? <FontAwesomeIcon className={cs('loading')} icon={faSpinner} /> : totalView}
+                            </span>
+                            <span>Tổng Số Lượt Xem</span>
                         </p>
                         <FontAwesomeIcon icon={faPlayCircle} />
                     </div>

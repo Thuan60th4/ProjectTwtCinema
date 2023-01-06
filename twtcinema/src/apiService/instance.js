@@ -1,7 +1,8 @@
 import axios from 'axios';
 import queryString from 'query-string';
 const instance = axios.create({
-    baseURL: 'http://localhost:8888/api',
+    baseURL: 'https://server-five-chi.vercel.app/api',
+    // baseURL: 'http://localhost:8888/api',
     headers: {
         'Content-Type': 'application/json',
     },

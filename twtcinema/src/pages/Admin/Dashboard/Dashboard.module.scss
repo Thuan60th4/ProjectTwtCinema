@@ -51,7 +51,21 @@
     &:nth-child(2) {
         background-color: rgb(62, 215, 138);
     }
-        &:nth-child(3) {
-        background-color: #e3526f
+    &:nth-child(3) {
+        background-color: #e3526f;
+    }
+
+    .loading {
+        font-size: 2.7rem !important;
+        animation: spinner 0.8s linear infinite;
+    }
+
+    @keyframes spinner {
+        from {
+            transform: rotate(0);
+        }
+        to {
+            transform: rotate(360deg);
+        }
     }
 }

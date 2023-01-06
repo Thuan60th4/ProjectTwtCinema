@@ -226,10 +226,11 @@ class MovieController {
           });
         } else if (type === "upcoming") {
           var date = new Date();
+          date.setMonth(date.getMonth() - 2);
           const movies = await Movie.find({
             category,
             releaseDate: {
-              $gte: `${date.getFullYear()}-${date.getMonth() - 1}-1`,
+              $gte: `${date.getFullYear()}-${date.getMonth()}-1`,
             },
           })
             .sort({ releaseDate: -1 })
@@ -239,7 +240,7 @@ class MovieController {
           countDocuments = await Movie.countDocuments({
             category,
             releaseDate: {
-              $gte: `${date.getFullYear()}-${date.getMonth() - 1}-1`,
+              $gte: `${date.getFullYear()}-${date.getMonth()}-1`,
             },
           });
         }

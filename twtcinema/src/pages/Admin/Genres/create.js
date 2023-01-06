@@ -23,7 +23,7 @@ const CreateGenres = () => {
             showToastMessage('success', res.message);
             reset();
         } catch (error) {
-            showToastMessage(error);
+            showToastMessage('error', 'Id đã tồn tại trên hệ thống');
         }
     };
 

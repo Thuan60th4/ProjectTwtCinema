@@ -6,7 +6,6 @@ import requestApi from '~/apiService';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Img } from '~/apiService/instance';
 import Skeleton from 'react-loading-skeleton';
-import LazyLoad from 'react-lazy-load';
 
 const cs = classNames.bind(styles);
 
@@ -37,10 +36,7 @@ function SimilarMovie({ category, slug }) {
                     : similar.map((list, index) => (
                           <SwiperSlide key={index} className={cs('swiperItem')}>
                               <a href={`/${category}/${list.slug}`}>
-                                  <LazyLoad threshold={0.8}>
-                                      <img className={cs('movieImg')} src={Img.baseImg(list.backdrop_path)} alt="" />
-                                  </LazyLoad>
-
+                                  <img className={cs('movieImg')} src={Img.baseImg(list.backdrop_path)} alt="" />
                                   <span>{list.name}</span>
                               </a>
                           </SwiperSlide>

@@ -3,7 +3,7 @@ import { faMagnifyingGlass, faCircleXmark, faSpinner } from '@fortawesome/free-s
 import classNames from 'classnames/bind';
 
 import styles from './Search.module.scss';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useLayoutEffect } from 'react';
 import useDebounce from '~/hooks/useDebounce';
 import Tippy from '@tippyjs/react/headless';
 
@@ -23,7 +23,7 @@ function SearchBox() {
 
     const debouncedValue = useDebounce(inputValue, 500);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (!debouncedValue.trim()) {
             //reset lai mang sau khi xoa
             setSearchResult([]);
@@ -76,7 +76,7 @@ function SearchBox() {
         <div className={cs('wrapper')}>
             <Tippy
                 interactive
-                visible={showResult && debouncedValue.trim()}
+                visible={!loading && showResult && debouncedValue.trim()}
                 render={(attrs) => (
                     <div className={cs('search-result')} tabIndex="-1" {...attrs}>
                         <PopperWrapper>
